@@ -1,7 +1,7 @@
 name: Deploy to Amazon EC2
 
 on:
-	#pull request 시 작동
+  #pull request 시 작동
   pull_request: 
     branches:
       - develop
@@ -9,8 +9,8 @@ on:
 # 리전, 버킷 이름, CodeDeploy 앱 이름, CodeDeploy 배포 그룹 이름
 env:
   AWS_REGION: ap-northeast-2
-	#(버킷 이름은 고유값 유의, 자신의 bucket값을 넣자, 나머지 아래 2개는 중복 가능)
-  S3_BUCKET_NAME: mybycket # 값 넣어야함
+  #(버킷 이름은 고유값 유의, 자신의 bucket값을 넣자, 나머지 아래 2개는 중복 가능)
+  S3_BUCKET_NAME: todomate-github-action-s3-bucket # 값 넣어야함
   CODE_DEPLOY_APPLICATION_NAME: my-codedeploy-app
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: my-codedeploy-deployment-group
 
