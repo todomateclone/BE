@@ -41,6 +41,9 @@ public class Member extends TimeStamped {
     @Column(length = 100)
     private String description;
 
+    @Column(name = "done_count", nullable = false)
+    private int doneCount;
+
     @OneToMany
     @JoinColumn(name = "member_id")
     private List<Todo> todos = new ArrayList<>();
