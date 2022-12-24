@@ -1,5 +1,6 @@
-package com.team6.todomateclone.todo.dto;
+package com.team6.todomateclone.todo.dto.updatedto;
 
+import com.team6.todomateclone.todo.dto.createdto.CreateTodoDto;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -7,7 +8,7 @@ import javax.validation.constraints.*;
 
 @Getter
 @ToString
-public class RequestTodoUpdateDto {
+public class RequestUpdateTodoDto {
 
     @NotEmpty
     @Size(min = 1, max = 255)
@@ -30,4 +31,15 @@ public class RequestTodoUpdateDto {
     @Min(1) //최소값 1일
     @Max(31) //최대값 31일
     private Long todoDay;
+
+
+    //Builder를 통해 RequestDto -> ServiceDto로 변경
+    public UpdateTodoDto toUpdateTodoDto(){
+        return UpdateTodoDto.builder()
+                .content(content)
+                .todoYear(todoYear)
+                .todoMonth(todoMonth)
+                .todoDay(todoDay)
+                .build();
+    }
 }
