@@ -8,11 +8,13 @@ import lombok.Getter;
 public class SuccessResponse<T> {
     private final String result;
     private final String msg;
+    private final int code;
     private final T data;
 
     public SuccessResponse(String msg, T data){
         this.result = "success";
         this.msg = msg;
+        this.code = 200;
         this.data = data;
     }
 
