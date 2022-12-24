@@ -2,6 +2,7 @@ package com.team6.todomateclone.todo.entity;
 
 import com.team6.todomateclone.common.TimeStamped;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,4 +36,22 @@ public class Todo extends TimeStamped {
 
     @Column(nullable = false)
     private boolean done;
+
+    @Column(name = "tag_id", nullable = false)
+    private Long tagId;
+    @Column(name = "member_id", nullable = false)
+    private Long memberId;
+
+    @Builder
+    public Todo(Long todoId, String content, Long todoYear, Long todoMonth, Long todoDay, boolean done, Long tagId, Long memberId) {
+        this.todoId = todoId;
+        this.content = content;
+        this.todoYear = todoYear;
+        this.todoMonth = todoMonth;
+        this.todoDay = todoDay;
+        this.done = done;
+        this.tagId = tagId;
+        this.memberId = memberId;
+    }
+
 }
