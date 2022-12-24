@@ -1,6 +1,7 @@
 package com.team6.todomateclone.member.entity;
 
 import com.team6.todomateclone.common.TimeStamped;
+import com.team6.todomateclone.tag.entity.Tag;
 import com.team6.todomateclone.todo.entity.Todo;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -45,6 +46,8 @@ public class Member extends TimeStamped {
     @JoinColumn(name = "member_id")
     private List<Todo> todos = new ArrayList<>();
 
-
+    @OneToMany
+    @JoinColumn(name = "member_id")
+    private List<Tag> tags = new ArrayList<>();
 
 }
