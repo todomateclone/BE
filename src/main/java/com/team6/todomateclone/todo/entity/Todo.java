@@ -24,17 +24,15 @@ public class Todo extends TimeStamped {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private Long year;
+    @Column(name = "todo_year", nullable = false)
+    private Long todoYear;
 
-    @Column(nullable = false)
-    private Long month;
+    @Column(name = "todo_month", nullable = false)
+    private Long todoMonth;
 
-    @Column(nullable = false)
-    private Long day;
+    @Column(name = "todo_day", nullable = false)
+    private Long todoDay;
 
     @Column(nullable = false)
     private boolean done;
-
-
 }
