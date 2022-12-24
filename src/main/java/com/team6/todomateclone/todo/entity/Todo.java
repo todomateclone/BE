@@ -25,13 +25,13 @@ public class Todo extends TimeStamped {
     private String content;
 
     @Column(nullable = false)
-    private Long year;
+    private Long todoYear;
 
     @Column(nullable = false)
-    private Long month;
+    private Long todoMonth;
 
     @Column(nullable = false)
-    private Long day;
+    private Long todoDay;
 
     @Column(nullable = false)
     private boolean done;
