@@ -25,11 +25,11 @@ public class Tag {
     @Column(name = "tag_id")
     private Long tagId;
 
-    @Column(nullable = false, length = 100)
-    private String name;
+    @Column(name = "tag_name", nullable = false, length = 100)
+    private String tagName;
 
-    @Column(nullable = false, length = 100)
-    private String color;
+    @Column(name = "tag_color", nullable = false, length = 100)
+    private String tagColor;
 
     @OneToMany
     @JoinColumn(name = "tag_id")

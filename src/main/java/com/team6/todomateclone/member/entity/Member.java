@@ -45,4 +45,6 @@ public class Member extends TimeStamped {
     @JoinColumn(name = "member_id")
     private List<Todo> todos = new ArrayList<>();
 
+
+
 }
