@@ -11,7 +11,7 @@ import java.util.TimeZone;
 
 @SpringBootApplication
 @EnableJpaAuditing
-@PropertySource("classpath:applicaton-mysql.properties")
+@PropertySource("classpath:application-mysql.properties")
 public class TodomatecloneApplication {
 
     @PostConstruct
