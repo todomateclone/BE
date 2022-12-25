@@ -3,8 +3,10 @@ package com.team6.todomateclone.todo.controller;
 import com.team6.todomateclone.common.response.SuccessResponse;
 import com.team6.todomateclone.todo.dto.createdto.CreateTodoDto;
 import com.team6.todomateclone.todo.dto.createdto.RequestCreateTodoDto;
-import com.team6.todomateclone.todo.dto.RequestTodoUpdateDto;
 import com.team6.todomateclone.todo.dto.createdto.ResponseCreateTodoDto;
+import com.team6.todomateclone.todo.dto.updatedto.RequestUpdateTodoDto;
+import com.team6.todomateclone.todo.dto.updatedto.ResponseUpdateTodoDto;
+import com.team6.todomateclone.todo.dto.updatedto.UpdateTodoDto;
 import com.team6.todomateclone.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -35,14 +37,20 @@ public class TodoController {
         ResponseCreateTodoDto data = todoService.createTodo(tagId, 1L, createTodoDto); //userDetails 대신 사용
 
         //2-3. 결과 반환
-        return new SuccessResponse<>("투두 등록", data);
+        return new SuccessResponse<>("일정 등록 성공하였습니다.", data);
     }
 
     //3. 투두 수정
     @PutMapping("/{todoId}")
-    public SuccessResponse<Object> updateTodo(@PathVariable Long todoId, @RequestBody @Valid RequestTodoUpdateDto todoUpdateDto){//UserDetails 필요
-        System.out.println("updateTodo : " + todoId);
-        return new SuccessResponse<>("투두 수정", null);
+    public SuccessResponse<ResponseUpdateTodoDto> updateTodo(@PathVariable Long todoId, @RequestBody @Valid RequestUpdateTodoDto requestUpdateTodoDto){//UserDetails 필요
+        //3-1. RequestDto -> ServiceDto
+        UpdateTodoDto updateTodoDto = requestUpdateTodoDto.toUpdateTodoDto();
+
+        //3-2. 투두 수정 서비스 진행
+        ResponseUpdateTodoDto data = todoService.updateTodo(todoId, 1L, updateTodoDto);
+
+        //3-3. 결과 반환
+        return new SuccessResponse<>("일정 수정 성공하였습니다.", data);
     }
 
     //4. 투두 삭제
