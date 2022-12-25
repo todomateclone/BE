@@ -6,4 +6,10 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ResponseTagDto {
+
+    private Long tagId;
+    private String tagName;
+    private String tagColor;
+//    private Long memberId;
+
 }
