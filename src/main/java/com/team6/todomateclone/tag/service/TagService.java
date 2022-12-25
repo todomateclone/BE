@@ -1,5 +1,7 @@
 package com.team6.todomateclone.tag.service;
 
+import com.team6.todomateclone.common.exception.CustomErrorCodeEnum;
+import com.team6.todomateclone.common.exception.CustomErrorException;
 import com.team6.todomateclone.tag.dto.RequestTagDto;
 import com.team6.todomateclone.tag.dto.ResponseTagDto;
 import com.team6.todomateclone.tag.entity.Tag;
@@ -35,9 +37,7 @@ public class TagService {
     // 태그 수정
     @Transactional
     public ResponseTagDto updateTag(Long tagId, RequestTagDto requestTagDto) {
-        Tag tag = tagRepository.findById(tagId).orElseThrow(
-                () -> new IllegalArgumentException("선택한 태그가 없습니다")
-        );
+        Tag tag = checkTag(tagId);
 
         tag.update(requestTagDto.getTagName(), requestTagDto.getTagColor());
 
@@ -47,10 +47,17 @@ public class TagService {
     // 태그 삭제
     @Transactional
     public void deleteTag(Long tagId) {
-        Tag tag = tagRepository.findById(tagId).orElseThrow(
-                () -> new IllegalArgumentException("선택한 태그가 없습니다")
-        );
+        checkTag(tagId);
 
         tagRepository.deleteById(tagId);
     }
+
+    // 태그가 있는지 없는지 확인하는 메서드
+    private Tag checkTag(Long tagId) {
+        Tag tag = tagRepository.findById(tagId).orElseThrow(
+                () -> new CustomErrorException(CustomErrorCodeEnum.TAG_NOT_FOUND)
+        );
+        return tag;
+    }
+
 }
