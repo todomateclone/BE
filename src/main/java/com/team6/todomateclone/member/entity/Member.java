@@ -4,6 +4,7 @@ import com.team6.todomateclone.common.TimeStamped;
 import com.team6.todomateclone.tag.entity.Tag;
 import com.team6.todomateclone.todo.entity.Todo;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,8 +47,25 @@ public class Member extends TimeStamped {
     @JoinColumn(name = "member_id")
     private List<Todo> todos = new ArrayList<>();
 
+
     @OneToMany
     @JoinColumn(name = "member_id")
     private List<Tag> tags = new ArrayList<>();
 
+    @Builder
+    public Member(String email, String password, String profileImageUrl, String nickname, String description){
+        this.email = email;
+        this.password = password;
+        this.profileImageUrl = profileImageUrl;
+        this.nickname = nickname;
+        this.description = description;
+    }
+
+    public void updateInfo(String nickname, String description) {
+        this.nickname = nickname;
+        this.description = description;
+    }
+    public void updateImage(String profileImageUrl){
+        this.profileImageUrl =profileImageUrl;
+    }
 }
