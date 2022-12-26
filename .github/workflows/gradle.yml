@@ -49,7 +49,8 @@ jobs:
         OCCUPY_SECRET: ${{ secrets.OCCUPY_SECRET2 }}
         OCCUPY_SECRET_DIR: src/main/resources
         OCCUPY_SECRET_DIR_FILE_NAME: security.properties
-      run: echo $OCCUPY_SECRET2 | base64 --decode > $OCCUPY_SECRET2_DIR/$OCCUPY_SECRET2_DIR_FILE_NAME
+      run: echo $OCCUPY_SECRET2 | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
+
 
 
     # 권한 설정

@@ -55,7 +55,7 @@ public class TagService {
     // 태그가 있는지 없는지 확인하는 메서드
     private Tag checkTag(Long tagId) {
         Tag tag = tagRepository.findById(tagId).orElseThrow(
-                () -> new CustomErrorException(CustomErrorCodeEnum.TAG_NOT_FOUND)
+                () -> new CustomErrorException(CustomErrorCodeEnum.TAG_NOT_FOUND_MSG)
         );
         return tag;
     }
