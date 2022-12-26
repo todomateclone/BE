@@ -19,8 +19,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.INVALID_TOKEN;
-import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TOKEN_NOT_FOUND;
+import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.INVALID_TOKEN_MSG;
+import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TOKEN_NOT_FOUND_MSG;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -44,12 +44,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Token 유효성 검사 및 인증
         if (token == null) {
-            throw new CustomErrorException(TOKEN_NOT_FOUND);
+            throw new CustomErrorException(TOKEN_NOT_FOUND_MSG);
         }
 
         // Token 유효성 확인
         if (!jwtUtil.validateAccessToken(token, request, response)) {
-            throw new CustomErrorException(INVALID_TOKEN);
+            throw new CustomErrorException(INVALID_TOKEN_MSG);
         }
 
         // 사용자 인증
