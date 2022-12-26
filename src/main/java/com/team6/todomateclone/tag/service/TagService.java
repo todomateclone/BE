@@ -3,6 +3,7 @@ package com.team6.todomateclone.tag.service;
 import com.team6.todomateclone.common.exception.CustomErrorCodeEnum;
 import com.team6.todomateclone.common.exception.CustomErrorException;
 import com.team6.todomateclone.member.entity.Member;
+import com.team6.todomateclone.member.repository.MemberRepository;
 import com.team6.todomateclone.tag.dto.RequestTagDto;
 import com.team6.todomateclone.tag.dto.ResponseTagDto;
 import com.team6.todomateclone.tag.entity.Tag;
@@ -12,11 +13,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TagService {
 
     private final TagRepository tagRepository;
+    private final MemberRepository memberRepository;
     private final TagMapper tagMapper;
 
     // 태그 등록
@@ -26,6 +31,21 @@ public class TagService {
         tagRepository.save(tag);
 
         return tagMapper.toResponseTagDto(tag);
+    }
+
+    // 태그 조회
+    @Transactional(readOnly = true)
+    public List<ResponseTagDto> getTag(Long memberId) {
+        // 멤버 유효성 검사
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new CustomErrorException(CustomErrorCodeEnum.MEMBER_NOT_FOUND_MSG)
+        );
+
+        List<ResponseTagDto> tags = new ArrayList<>();
+        for (Tag tag : member.getTags()) {
+            tags.add(tagMapper.toResponseTagDto(tag));
+        }
+        return tags;
     }
 
     // 태그 수정
