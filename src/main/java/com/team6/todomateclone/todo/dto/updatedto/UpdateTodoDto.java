@@ -1,12 +1,13 @@
-package com.team6.todomateclone.todo.dto.createdto;
+package com.team6.todomateclone.todo.dto.updatedto;
 
+import com.team6.todomateclone.todo.dto.createdto.ResponseCreateTodoDto;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class CreateTodoDto {
+public class UpdateTodoDto {
     private Long tagId;
     private Long memberId;
     private Long todoId;
@@ -18,7 +19,7 @@ public class CreateTodoDto {
     private boolean done;
 
     @Builder
-    public CreateTodoDto(Long tagId, Long memberId, Long todoId, String content, Long todoYear, Long todoMonth, Long todoDay, LocalDateTime createdAt, boolean done) {
+    public UpdateTodoDto(Long tagId, Long memberId, Long todoId, String content, Long todoYear, Long todoMonth, Long todoDay, LocalDateTime createdAt, boolean done) {
         this.tagId = tagId;
         this.memberId = memberId;
         this.todoId = todoId;
@@ -30,8 +31,8 @@ public class CreateTodoDto {
         this.done = done;
     }
 
-    public ResponseCreateTodoDto toResponseCreateTodoDto() {
-        return ResponseCreateTodoDto.builder()
+    public ResponseUpdateTodoDto toResponseUpdateTodoDto() {
+        return ResponseUpdateTodoDto.builder()
                 .todoId(todoId)
                 .content(content)
                 .tagId(tagId)

@@ -54,4 +54,14 @@ public class Todo extends TimeStamped {
         this.memberId = memberId;
     }
 
+
+    public void updateTodo(Todo updateTodo) {
+        this.content = updateTodo.getContent();
+        this.todoYear = updateTodo.getTodoYear();
+        this.todoMonth = updateTodo.getTodoMonth();
+        this.todoDay = updateTodo.getTodoDay();
+        this.done = updateTodo.isDone();
+    }
+
+
 }
