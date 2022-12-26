@@ -1,6 +1,5 @@
 package com.team6.todomateclone.common.jwt;
 
-import com.team6.todomateclone.common.exception.CustomErrorCodeEnum;
 import com.team6.todomateclone.common.exception.CustomErrorException;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,7 @@ import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TOKEN
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final Set<String> skipFilterUrls = new HashSet<>(Arrays.asList("/api/auth/**", "/"));
+    private final Set<String> skipFilterUrls = new HashSet<>(Arrays.asList("/api/auth/**", "/", "/**" )); /*테스트로 모둔 URL 허용*/
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     @Override
