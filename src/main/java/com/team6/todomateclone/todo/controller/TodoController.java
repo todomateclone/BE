@@ -1,6 +1,7 @@
 package com.team6.todomateclone.todo.controller;
 
 import com.team6.todomateclone.common.response.SuccessResponse;
+import com.team6.todomateclone.todo.dto.GetListDto.ResponseGetListTodoDto;
 import com.team6.todomateclone.todo.dto.createdto.CreateTodoDto;
 import com.team6.todomateclone.todo.dto.createdto.RequestCreateTodoDto;
 import com.team6.todomateclone.todo.dto.createdto.ResponseCreateTodoDto;
@@ -21,10 +22,11 @@ public class TodoController {
     private final TodoService todoService;
 
     /** 1. 투투 전체조회(월단위) **/
-    @GetMapping("/{todoYear}/{todoMonth}")
-    public SuccessResponse<Object> getTodos(@PathVariable Long todoYear, @PathVariable Long todoMonth){ //UserDetails 필요
-        System.out.println("getTodos : " + todoYear + " / " + todoMonth);
-        return new SuccessResponse("전체조회", null);
+    @GetMapping(value = {"", "/{todoYear}/{todoMonth}"}) //다중 매핑
+    public SuccessResponse<ResponseGetListTodoDto> getTodos(@PathVariable(required = false) Long todoYear,
+                                                            @PathVariable(required = false) Long todoMonth) { //UserDetails 필요
+        ResponseGetListTodoDto data = todoService.getTodos(todoYear, todoMonth, 1L); //userDetails 대신 사용
+        return new SuccessResponse("전체조회", data);
     }
 
     /** 2. 투두 등록 **/
