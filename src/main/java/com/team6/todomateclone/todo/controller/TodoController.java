@@ -20,14 +20,14 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    //1. 투투 전체조회(월단위)
+    /** 1. 투투 전체조회(월단위) **/
     @GetMapping("/{todoYear}/{todoMonth}")
     public SuccessResponse<Object> getTodos(@PathVariable Long todoYear, @PathVariable Long todoMonth){ //UserDetails 필요
         System.out.println("getTodos : " + todoYear + " / " + todoMonth);
         return new SuccessResponse("전체조회", null);
     }
 
-    //2. 투두 등록
+    /** 2. 투두 등록 **/
     @PostMapping("/{tagId}")
     public SuccessResponse<ResponseCreateTodoDto> createTodo(@PathVariable Long tagId, @RequestBody @Valid RequestCreateTodoDto requestCreateTodoDto){//UserDetails 필요
         //2-1. RequestDto -> ServiceDto
@@ -40,7 +40,7 @@ public class TodoController {
         return new SuccessResponse<>("일정 등록 성공하였습니다.", data);
     }
 
-    //3. 투두 수정
+    /** 3. 투두 수정 **/
     @PutMapping("/{todoId}")
     public SuccessResponse<ResponseUpdateTodoDto> updateTodo(@PathVariable Long todoId, @RequestBody @Valid RequestUpdateTodoDto requestUpdateTodoDto){//UserDetails 필요
         //3-1. RequestDto -> ServiceDto
@@ -53,7 +53,7 @@ public class TodoController {
         return new SuccessResponse<>("일정 수정 성공하였습니다.", data);
     }
 
-    //4. 투두 삭제
+    /** 4. 투두 삭제 **/
     @DeleteMapping("/{todoId}")
     public SuccessResponse<Object> deleteTodo(@PathVariable Long todoId){ //UserDetails 필요
         //4-1. 투투 삭제 서비스 진행

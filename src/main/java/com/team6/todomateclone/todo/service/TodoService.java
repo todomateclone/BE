@@ -31,59 +31,59 @@ public class TodoService {
     /** 2. 투두 등록 **/
     @Transactional
     public ResponseCreateTodoDto createTodo(Long tagId, Long memberId, CreateTodoDto createTodoDto) {
-        //1. 태그 유효성 검사
+        //2-1. 태그 유효성 검사
         boolean isTagId = tagRepository.existsById(tagId);
 
         if (!isTagId) { //태그가 없다면 에러 반환
             throw new CustomErrorException(CustomErrorCodeEnum.TAG_NOT_FOUND_MSG);
         }
 
-        //2. ServiceDto -> Entity
+        //2-2. ServiceDto -> Entity
         Todo todo = createTodoMapper.toEntityTodo(tagId, memberId, createTodoDto);
 
-        //3. 투두 등록
+        //2-3. 투두 등록
         todo = todoRespository.save(todo);
 
-        //4. Entity -> ServiceDto
+        //2-4. Entity -> ServiceDto
         createTodoDto = createTodoMapper.toDtoCreateTodo(todo);
 
-        //5. ServiceDto -> ResponseDto
+        //2-5. ServiceDto -> ResponseDto
         ResponseCreateTodoDto responseCreateTodoDto = createTodoDto.toResponseCreateTodoDto();
 
-        //6. 결과 반환
+        //2-6. 결과 반환
         return responseCreateTodoDto;
     }
 
     /** 3. 투두 수정 **/
     @Transactional
     public ResponseUpdateTodoDto updateTodo(Long todoId, Long memberId, UpdateTodoDto updateTodoDto) {
-        //1. 투두 유효성 검사
+        //3-1. 투두 유효성 검사
         Todo todo = todoRespository.findById(todoId).orElseThrow(
                 () -> new CustomErrorException(CustomErrorCodeEnum.TODO_NOT_FOUND_MSG)
         );
 
-        //2. 투두 수정 권한 여부 검사
+        //3-2. 투두 수정 권한 여부 검사
         if (!memberId.equals(todo.getMemberId())){
             throw new CustomErrorException(CustomErrorCodeEnum.TODO_INVALID_PERMISSION_MSG);
         }
 
-        //3. ServiceDto -> Entity
+        //3-3. ServiceDto -> Entity
         Todo updateTodo = updateTodoMapper.toEntityTodo(updateTodoDto);
 
-        //4. 투두 수정
+        //3-4. 투두 수정
         todo.updateTodo(updateTodo);
 
-        //5. Entity -> ServiceDto
+        //3-5. Entity -> ServiceDto
         updateTodoDto = updateTodoMapper.toDtoUpdateTodo(todo);
 
-        //6. ServiceDto -> ResponseDto
+        //3-6. ServiceDto -> ResponseDto
         ResponseUpdateTodoDto responseUpdateTodoDto = updateTodoDto.toResponseUpdateTodoDto();
 
-        //7. 결과 반환
+        //3-7. 결과 반환
         return responseUpdateTodoDto;
     }
 
-    //4. 투두 삭제
+    /** 4. 투두 삭제 **/
     @Transactional
     public void deleteTodo(Long todoId, Long memberId) {
         //4-1. 투두 유효성 검사
