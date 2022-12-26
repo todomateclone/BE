@@ -20,9 +20,8 @@ public class HealthyCheckController {
 
 
         public String getStatus() {
-
-        String getStatus() {
             return status;
+
         }
     }
 }
