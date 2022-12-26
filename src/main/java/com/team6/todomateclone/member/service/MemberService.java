@@ -11,6 +11,9 @@ import com.team6.todomateclone.member.dto.*;
 import com.team6.todomateclone.member.entity.Member;
 import com.team6.todomateclone.member.mapper.MemberMapper;
 import com.team6.todomateclone.member.repository.MemberRepository;
+import com.team6.todomateclone.tag.entity.Tag;
+import com.team6.todomateclone.tag.mapper.TagMapper;
+import com.team6.todomateclone.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,9 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.DUPLICATED_EMAIL_MSG;
-import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.EMAIL_NOT_FOUND_MSG;
-import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.PASSWORD_NOT_MATCH_MSG;
+import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +33,8 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
+    private final TagRepository tagRepository;
+    private final TagMapper tagMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     /* 기본 이미지 url */
@@ -50,6 +53,8 @@ public class MemberService {
 
         Member member = memberMapper.toEntity(email, password, defaultImage);
         memberRepository.save(member);
+        Tag tag = tagMapper.toEntity();
+        tagRepository.save(tag);
     }
 
     public void login(RequestLoginMemberDto request, HttpServletResponse response) {
