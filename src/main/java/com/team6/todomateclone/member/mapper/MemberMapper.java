@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MemberMapper {
-    public Member toEntity(RequestSignupMemberDto request, String profileImageUrl){
+    public Member toEntity(String email, String password, String profileImageUrl){
         return Member.builder()
-                .email(request.getEmail())
-                .password(request.getPassword())
+                .email(email)
+                .password(password)
                 .nickname("me")
                 .description("")
                 .profileImageUrl(profileImageUrl)
