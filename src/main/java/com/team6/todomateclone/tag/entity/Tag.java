@@ -1,5 +1,6 @@
 package com.team6.todomateclone.tag.entity;
 
+import com.team6.todomateclone.member.entity.Member;
 import com.team6.todomateclone.todo.entity.Todo;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -32,14 +33,18 @@ public class Tag {
     @Column(nullable = false, length = 100)
     private String tagColor;
 
+    @Column(name = "member_id", nullable = false)
+    private Long memberId;
+
     @OneToMany
     @JoinColumn(name = "tag_id")
     private List<Todo> todos = new ArrayList<>();
 
     @Builder
-    public Tag(String tagName, String tagColor) {
+    public Tag(String tagName, String tagColor, Member member) {
         this.tagName = tagName;
         this.tagColor = tagColor;
+        this.memberId = member.getMemberId();
     }
 
     public void update(String tagName, String tagColor) {
