@@ -5,7 +5,6 @@ import com.team6.todomateclone.common.exception.CustomErrorException;
 import com.team6.todomateclone.tag.repository.TagRepository;
 import com.team6.todomateclone.todo.dto.createdto.CreateTodoDto;
 import com.team6.todomateclone.todo.dto.createdto.ResponseCreateTodoDto;
-import com.team6.todomateclone.todo.dto.updatedto.RequestUpdateTodoDto;
 import com.team6.todomateclone.todo.dto.updatedto.ResponseUpdateTodoDto;
 import com.team6.todomateclone.todo.dto.updatedto.UpdateTodoDto;
 import com.team6.todomateclone.todo.entity.Todo;
@@ -36,7 +35,7 @@ public class TodoService {
         boolean isTagId = tagRepository.existsById(tagId);
 
         if (!isTagId) { //태그가 없다면 에러 반환
-            throw new CustomErrorException(CustomErrorCodeEnum.TAG_NOT_FOUND);
+            throw new CustomErrorException(CustomErrorCodeEnum.TAG_NOT_FOUND_MSG);
         }
 
         //2. ServiceDto -> Entity
@@ -60,12 +59,12 @@ public class TodoService {
     public ResponseUpdateTodoDto updateTodo(Long todoId, Long memberId, UpdateTodoDto updateTodoDto) {
         //1. 투두 유효성 검사
         Todo todo = todoRespository.findById(todoId).orElseThrow(
-                () -> new CustomErrorException(CustomErrorCodeEnum.TODO_NOT_FOUND)
+                () -> new CustomErrorException(CustomErrorCodeEnum.TODO_NOT_FOUND_MSG)
         );
 
         //2. 투두 수정 권한 여부 검사
         if (!memberId.equals(todo.getMemberId())){
-            throw new CustomErrorException(CustomErrorCodeEnum.TODO_INVALID_PERMISSION);
+            throw new CustomErrorException(CustomErrorCodeEnum.TODO_INVALID_PERMISSION_MSG);
         }
 
         //3. ServiceDto -> Entity
