@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.DUPLICATED_EMAIL_MSG;
 import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.EMAIL_NOT_FOUND_MSG;
 import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.PASSWORD_NOT_MATCH_MSG;
 
@@ -43,7 +44,7 @@ public class MemberService {
         // 이메일 중복 검사
         memberRepository.findByEmail(email).ifPresent(
                 m -> {
-                    throw new CustomErrorException(EMAIL_NOT_FOUND_MSG);
+                    throw new CustomErrorException(DUPLICATED_EMAIL_MSG);
                 }
         );
 
