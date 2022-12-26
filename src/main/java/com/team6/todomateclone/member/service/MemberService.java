@@ -7,7 +7,12 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.team6.todomateclone.common.exception.CustomErrorCodeEnum;
 import com.team6.todomateclone.common.exception.CustomErrorException;
 import com.team6.todomateclone.common.jwt.JwtUtil;
-import com.team6.todomateclone.member.dto.*;
+import com.team6.todomateclone.member.dto.RequestLoginMemberDto;
+import com.team6.todomateclone.member.dto.RequestSignupMemberDto;
+import com.team6.todomateclone.member.dto.RequestUpdateInfoMemberDto;
+import com.team6.todomateclone.member.dto.ResponseInfoMemberDto;
+import com.team6.todomateclone.member.dto.ResponseUpdateImageMemberDto;
+import com.team6.todomateclone.member.dto.ResponseUpdateInfoMemberDto;
 import com.team6.todomateclone.member.entity.Member;
 import com.team6.todomateclone.member.mapper.MemberMapper;
 import com.team6.todomateclone.member.repository.MemberRepository;
@@ -66,7 +71,7 @@ public class MemberService {
 
         String accessToken = jwtUtil.createToken(member.getEmail());
 
-        response.addHeader(JwtUtil.AUTHORIZATION_ACCESS, accessToken);
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
     }
 
     public ResponseInfoMemberDto getMemberInfo(Long memberId) {
