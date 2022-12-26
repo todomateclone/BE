@@ -1,13 +1,13 @@
 package com.team6.todomateclone.common.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team6.todomateclone.common.exception.CustomErrorCodeEnum;
-import com.team6.todomateclone.common.exception.CustomErrorException;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -15,50 +15,37 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
-import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.INVALID_TOKEN_MSG;
 import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TOKEN_NOT_FOUND_MSG;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final Set<String> skipFilterUrls = new HashSet<>(Arrays.asList("/api/auth/**", "/"));
-    private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, CustomErrorException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String method = request.getMethod();
+        String token = jwtUtil.resolveToken(request);
 
-        // pre-flight 요청일 때, JwtAuthenticationFilter 건너뜀.
-        if (method.equals("OPTIONS")) {
+        if (token == null) {
+            filterChain.doFilter(request, response);
+        }
+
+        if (!jwtUtil.validateAccessToken(token)) {
+            jwtExceptionHandler(response, TOKEN_NOT_FOUND_MSG);
             return;
         }
 
-        // Request 토큰 추출
-        String token = jwtUtil.resolveToken(request, "Authorization");
-
-        // Token 유효성 검사 및 인증
-        if (token == null) {
-            throw new CustomErrorException(TOKEN_NOT_FOUND_MSG);
-        }
-
-        // Token 유효성 확인
-        if (!jwtUtil.validateAccessToken(token, request, response)) {
-            throw new CustomErrorException(INVALID_TOKEN_MSG);
-        }
-
         // 사용자 인증
-        Claims claims = jwtUtil.getUserInfoFromHttpServletRequest(request);
-        setAuthentication(claims.getSubject());
+        Claims claims = jwtUtil.getUserInfoFromToken(token);
+        setAuthentication(response, claims.getSubject());
+        filterChain.doFilter(request, response);
     }
 
     // 인증, 인가 설정
-    private void setAuthentication(String email) {
+    private void setAuthentication(HttpServletResponse response, String email) {
         // security context 생성
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         // Authentication 생성
@@ -69,10 +56,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.setContext(context);
     }
 
-    // JwtAuthenticationFilter 필터링 예외 처리
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return skipFilterUrls.stream()
-                .anyMatch(p -> pathMatcher.match(p, request.getRequestURI()));
+    public void jwtExceptionHandler(HttpServletResponse response, CustomErrorCodeEnum errorCodeEnum) {
+        response.setStatus(400);
+        response.setContentType("application/json; charset=utf8");
+        try {
+            String json = new ObjectMapper().writeValueAsString(errorCodeEnum.getMsg());
+            response.getWriter().write(json);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 }

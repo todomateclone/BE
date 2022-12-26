@@ -1,9 +1,6 @@
 package com.team6.todomateclone.common.jwt;
 
-import com.team6.todomateclone.common.exception.CustomErrorCodeEnum;
-import com.team6.todomateclone.common.exception.CustomErrorException;
 import com.team6.todomateclone.common.security.UserDetailsServiceImpl;
-import com.team6.todomateclone.member.repository.MemberRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -36,12 +33,11 @@ import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TOKEN
 @RequiredArgsConstructor
 public class JwtUtil {
 
-    public static final String AUTHORIZATION_ACCESS = "Authorization";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String AUTHORIZATION_KEY = "auth";
     public static final String BEARER_PREFIX = "Bearer ";
     private static final Long TOKEN_TIME = 30 * 60 * 1000L; // 토큰 만료시간 1시간(분 * 초 * 밀리 sec)
 
-    private final MemberRepository memberRepository;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     // JWT SecretKey
@@ -59,8 +55,8 @@ public class JwtUtil {
     }
 
     // Token 분해 Method
-    public String resolveToken(HttpServletRequest request, String authorization) {
-        String bearerToken = request.getHeader(authorization); // AccessToken value 가져옴
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER); // AccessToken value 가져옴
         // bearerToken 값이 존재하고, bearerToken 값이 "Bearer " 로 시작하면
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7); // "Bearer " 이후의 값을 리턴
@@ -83,7 +79,7 @@ public class JwtUtil {
     }
 
     // AccessToken 검증
-    public boolean validateAccessToken(String accessToken, HttpServletRequest request, HttpServletResponse response) {
+    public boolean validateAccessToken(String accessToken) {
         try {
             // Sring 형태인 토큰을 Thread-safe 하게 parse 하기 위해 AccessToken 가져와 JWS 로 파싱
             Jwts.parserBuilder().setSigningKey(accessTokenKey).build().parseClaimsJws(accessToken);
@@ -101,22 +97,10 @@ public class JwtUtil {
     }
 
     // 토큰에서 사용자 정보 가져오기
-    public Claims getUserInfoFromHttpServletRequest(HttpServletRequest request) throws SecurityException {
-        // Request 에서 Token 가져오기
-        String token = resolveToken(request, AUTHORIZATION_ACCESS);
-
-        // Token 유무 확인
-        if (token == null) {
-            throw new CustomErrorException(TOKEN_NOT_FOUND_MSG);
-        }
-
-        try {
-            return Jwts.parserBuilder().setSigningKey(accessTokenKey).build().parseClaimsJws(token).getBody();
-        } catch (ExpiredJwtException e) {
-            // JWT 만료로 인한 Exception 발생 시, Exception 에서 claim 제거
-            return e.getClaims();
-        }
+    public Claims getUserInfoFromToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(accessTokenKey).build().parseClaimsJws(token).getBody();
     }
+
 
     // Authentication 객체 생성
     public Authentication createAuthentication(String email) {
