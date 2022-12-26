@@ -10,12 +10,10 @@ public class MemberMapper {
         return Member.builder()
                 .email(request.getEmail())
                 .password(request.getPassword())
-                .nickname(request.getNickname())
-                .description(request.getDescription())
+                .nickname("me")
+                .description("")
                 .profileImageUrl(profileImageUrl)
                 .build();
     }
-
-
 
 }
