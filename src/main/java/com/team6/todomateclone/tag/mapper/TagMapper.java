@@ -9,10 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class TagMapper {
 
-    public Tag toEntity() {
+    public Tag toEntity(Member member) {
         return Tag.builder()
                 .tagName("일반")
                 .tagColor("#000000")
+                .member(member)
                 .build();
     }
 

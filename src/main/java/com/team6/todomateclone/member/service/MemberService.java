@@ -58,7 +58,7 @@ public class MemberService {
 
         Member member = memberMapper.toEntity(email, password, defaultImage);
         memberRepository.save(member);
-        Tag tag = tagMapper.toEntity();
+        Tag tag = tagMapper.toEntity(member);
         tagRepository.save(tag);
     }
 
