@@ -32,9 +32,6 @@ public class Tag {
     @Column(nullable = false, length = 100)
     private String tagColor;
 
-//    @Column(name = "member_id", nullable = false)
-//    private Long memberId;
-
     @OneToMany
     @JoinColumn(name = "tag_id")
     private List<Todo> todos = new ArrayList<>();

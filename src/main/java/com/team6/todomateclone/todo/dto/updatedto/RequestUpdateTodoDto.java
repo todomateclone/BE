@@ -1,6 +1,5 @@
 package com.team6.todomateclone.todo.dto.updatedto;
 
-import com.team6.todomateclone.todo.dto.createdto.CreateTodoDto;
 import lombok.Getter;
 import lombok.ToString;
 
