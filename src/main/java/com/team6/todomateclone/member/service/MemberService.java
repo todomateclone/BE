@@ -66,26 +66,26 @@ public class MemberService {
 
     public ResponseInfoMemberDto getMemberInfo(Long memberId) {
         Member member = checkMember(memberId);
-        return new ResponseInfoMemberDto(member);
+        return memberMapper.toResponseMemberDtoInfo(member);
     }
 
     public ResponseUpdateInfoMemberDto updateInfo(Long memberId, RequestUpdateInfoMemberDto request){
         Member member = checkMember(memberId);
         member.updateInfo(request.getNickname(), request.getDescription());
-        return new ResponseUpdateInfoMemberDto(member);
+        return memberMapper.toResponseMemberDtoUpdateInfo(member);
     }
 
     public ResponseUpdateImageMemberDto updateImage(Long memberId, MultipartFile multipartFile) throws IOException {
         String profileImageUrl = changeImageToUrl(multipartFile);
         Member member = checkMember(memberId);
         member.updateImage(profileImageUrl);
-        return new ResponseUpdateImageMemberDto(member);
+        return memberMapper.toResponseMemberDtoImage(member);
     }
 
     public ResponseUpdateImageMemberDto updateToDefaultImage(Long memberId){
         Member member = checkMember(memberId);
         member.updateImage(defaultImage);
-        return new ResponseUpdateImageMemberDto(member);
+        return memberMapper.toResponseMemberDtoImage(member);
     }
 
     /* AWS S3 관련: Image -> Url */
