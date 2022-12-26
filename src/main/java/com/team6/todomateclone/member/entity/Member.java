@@ -51,7 +51,7 @@ public class Member extends TimeStamped {
     @OneToMany
     @JoinColumn(name = "member_id")
     private List<Tag> tags = new ArrayList<>();
-    
+
     @Builder
     public Member(String email, String password, String profileImageUrl, String nickname, String description){
         this.email = email;
@@ -61,6 +61,11 @@ public class Member extends TimeStamped {
         this.description = description;
     }
 
-
-
+    public void updateInfo(String nickname, String description) {
+        this.nickname = nickname;
+        this.description = description;
+    }
+    public void updateImage(String profileImageUrl){
+        this.profileImageUrl =profileImageUrl;
+    }
 }
