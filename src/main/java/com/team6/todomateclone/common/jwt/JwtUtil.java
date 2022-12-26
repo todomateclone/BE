@@ -28,7 +28,7 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
-import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TOKEN_NOT_FOUND;
+import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TOKEN_NOT_FOUND_MSG;
 
 @Slf4j
 @Component
@@ -107,7 +107,7 @@ public class JwtUtil {
 
         // Token 유무 확인
         if (token == null) {
-            throw new CustomErrorException(TOKEN_NOT_FOUND);
+            throw new CustomErrorException(TOKEN_NOT_FOUND_MSG);
         }
 
         try {
