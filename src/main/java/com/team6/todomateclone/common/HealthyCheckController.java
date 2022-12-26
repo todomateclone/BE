@@ -1,17 +1,25 @@
 package com.team6.todomateclone.common;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
 public class HealthyCheckController {
 
-    @GetMapping
-    public ResponseEntity<HttpStatus> healthyCheck() {
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping(value = "/healthcheck")
+    public HealthStatus healthcheck() {
+        return new HealthStatus("ok");
+    }
+
+    class HealthStatus {
+        private String status;
+
+        HealthStatus(String status) {
+            this.status = status;
+        }
+
+        String getStatus() {
+            return status;
+        }
     }
 }
