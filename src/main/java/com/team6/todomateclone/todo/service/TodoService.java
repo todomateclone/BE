@@ -60,7 +60,6 @@ public class TodoService {
         Long doneCount = todoRespository.customTodoDoneCount(memberId, todoYear, todoMonth);
         if (doneCount == null) doneCount = 0L;
 
-
         //1-4-1. tags 작업
         List<ResponseGetListTagsDto> tagsDtos = new ArrayList<>();
 
@@ -77,7 +76,6 @@ public class TodoService {
         for (Todo todo : todos) {
             todosDto.add(getListTodoMapper.toDtopGetListTodos(todo));
         }
-
 
         //1-6. Entity -> ResponseDto 및 최종 ResponseDto 작업
         ResponseGetListTodoDto responseGetListTodoDto = getListTodoMapper.toDtopGetListTodo(member, doneCount, tagsDtos, todosDto);
