@@ -18,7 +18,10 @@ public class HealthyCheckController {
             this.status = status;
         }
 
+
         public String getStatus() {
+
+        String getStatus() {
             return status;
         }
     }
