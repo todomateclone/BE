@@ -60,7 +60,6 @@ public class TodoService {
         Long doneCount = todoRespository.customTodoDoneCount(memberId, todoYear, todoMonth);
         if (doneCount == null) doneCount = 0L;
 
-
         //1-4-1. tags 작업
         List<ResponseGetListTagsDto> tagsDtos = new ArrayList<>();
 

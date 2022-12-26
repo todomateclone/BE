@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TodoRespository extends JpaRepository<Todo, Long> {
 
-    @Query(value = "SELECT count(done), 0 doneCount FROM todo" +
+    @Query(value = "SELECT count(done) doneCount FROM todo" +
             " GROUP BY member_id, done, todo_year, todo_month" +
             " HAVING member_id = :memberId AND done = true AND todo_year = :todoYear AND todo_month = :todoMonth",
             nativeQuery = true)
