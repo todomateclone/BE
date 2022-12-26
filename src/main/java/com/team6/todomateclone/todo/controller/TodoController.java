@@ -56,7 +56,10 @@ public class TodoController {
     //4. 투두 삭제
     @DeleteMapping("/{todoId}")
     public SuccessResponse<Object> deleteTodo(@PathVariable Long todoId){ //UserDetails 필요
-        System.out.println("deleteTodo : " + todoId);
+        //4-1. 투투 삭제 서비스 진행
+        todoService.deleteTodo(todoId, 1L);
+
+        //4-2. 결과 반환
         return new SuccessResponse<>("투두 삭제", null);
     }
 
