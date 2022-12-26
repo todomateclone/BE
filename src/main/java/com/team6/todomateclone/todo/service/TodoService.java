@@ -88,12 +88,12 @@ public class TodoService {
     public void deleteTodo(Long todoId, Long memberId) {
         //4-1. 투두 유효성 검사
         Todo todo = todoRespository.findById(todoId).orElseThrow(
-                () -> new CustomErrorException(CustomErrorCodeEnum.TODO_NOT_FOUND)
+                () -> new CustomErrorException(CustomErrorCodeEnum.TODO_NOT_FOUND_MSG)
         );
 
         //4-2. 투두 삭제 권한 여부 검사
         if (!memberId.equals(todo.getMemberId())){
-            throw new CustomErrorException(CustomErrorCodeEnum.TODO_INVALID_PERMISSION);
+            throw new CustomErrorException(CustomErrorCodeEnum.TODO_INVALID_PERMISSION_MSG);
         }
 
         //4-3. 투두 삭제
