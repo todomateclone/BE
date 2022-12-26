@@ -4,8 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum CustomErrorCodeEnum {
-    /* 투두 예외 메시지 */
-    MEMBER_NOT_FOUND_MSG("유효하지 않은 회원입니다."),
+    /* Auth 예외 메시지 */
+    EMAIL_NOT_FOUND_MSG("해당 이메일이 존재하지 않습니다."),
+    PASSWORD_NOT_MATCH_MSG("비밀번호가 일치하지 않습니다."),
+    DUPLICATED_EMAIL_MSG("중복된 이메일입니다."),
+    MEMBER_NOT_FOUND_MSG("유효하지 않은 회원입니다.")
+
+    /* 투두 예외 메시지 */,
     TODO_NOT_FOUND_MSG("Todo를 찾을 수 없습니다."),
     TODO_INVALID_PERMISSION_MSG("Todo 권한이 유효하지 않습니다."),
 

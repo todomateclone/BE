@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -67,5 +68,8 @@ public class Member extends TimeStamped {
     }
     public void updateImage(String profileImageUrl){
         this.profileImageUrl =profileImageUrl;
+    }
+
+    public void passwordEncoder(String password) {
     }
 }
