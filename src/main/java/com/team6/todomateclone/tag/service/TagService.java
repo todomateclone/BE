@@ -2,6 +2,7 @@ package com.team6.todomateclone.tag.service;
 
 import com.team6.todomateclone.common.exception.CustomErrorCodeEnum;
 import com.team6.todomateclone.common.exception.CustomErrorException;
+import com.team6.todomateclone.member.entity.Member;
 import com.team6.todomateclone.tag.dto.RequestTagDto;
 import com.team6.todomateclone.tag.dto.ResponseTagDto;
 import com.team6.todomateclone.tag.entity.Tag;
@@ -10,9 +11,6 @@ import com.team6.todomateclone.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,31 +21,33 @@ public class TagService {
 
     // 태그 등록
     @Transactional
-    public List<ResponseTagDto> createTag(RequestTagDto requestTagDto) {
-        Tag tag = tagMapper.toEntity(requestTagDto);
+    public ResponseTagDto createTag(RequestTagDto requestTagDto, Member member) {
+        Tag tag = tagMapper.toEntity(requestTagDto, member);
         tagRepository.save(tag);
-        List<Tag> tagList = tagRepository.findAll();
-        List<ResponseTagDto> result = new ArrayList<>();
-        for (Tag tagValue : tagList) {
-            result.add(tagMapper.toResponseTagDtoCreate(tagValue));
-        }
-        return result;
+
+        return tagMapper.toResponseTagDto(tag);
     }
 
     // 태그 수정
     @Transactional
-    public ResponseTagDto updateTag(Long tagId, RequestTagDto requestTagDto) {
+    public ResponseTagDto updateTag(Long tagId, RequestTagDto requestTagDto, Member member) {
+        // 태그 존재 여부 확인
         Tag tag = checkTag(tagId);
+        // 태그 유효성 검사
+        checkPermission(member, tag);
 
         tag.update(requestTagDto.getTagName(), requestTagDto.getTagColor());
 
-        return tagMapper.toResponseTagDtoCreate(tag);
+        return tagMapper.toResponseTagDto(tag);
     }
 
     // 태그 삭제
     @Transactional
-    public void deleteTag(Long tagId) {
-        checkTag(tagId);
+    public void deleteTag(Long tagId, Member member) {
+        // 태그 존재 여부 확인
+        Tag tag = checkTag(tagId);
+        // 태그 유효성 검사
+        checkPermission(member, tag);
 
         tagRepository.deleteById(tagId);
     }
@@ -58,6 +58,12 @@ public class TagService {
                 () -> new CustomErrorException(CustomErrorCodeEnum.TAG_NOT_FOUND_MSG)
         );
         return tag;
+    }
+    // 태그 유효성 검사 확인하는 메서드
+    private static void checkPermission(Member member, Tag tag) {
+        if(!tag.getMemberId().equals(member.getMemberId())) {
+            throw new CustomErrorException(CustomErrorCodeEnum.TAG_INVALID_PERMISSION_MSG);
+        }
     }
 
 }
