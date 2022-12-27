@@ -37,6 +37,7 @@ public class TagController {
     }
 
     // 태그 조회
+    @ApiOperation(value = "태그 조회")
     @GetMapping("")
     public SuccessResponse<List<ResponseTagDto>> getTag(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         List<ResponseTagDto> response = tagService.getTag(userDetails.getMember().getMemberId());
