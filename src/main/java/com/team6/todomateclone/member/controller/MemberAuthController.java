@@ -2,8 +2,6 @@ package com.team6.todomateclone.member.controller;
 
 import com.team6.todomateclone.common.response.SuccessResponse;
 import com.team6.todomateclone.member.dto.RequestAuthMemberDto;
-import com.team6.todomateclone.member.dto.RequestLoginMemberDto;
-import com.team6.todomateclone.member.dto.RequestSignupMemberDto;
 import com.team6.todomateclone.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
