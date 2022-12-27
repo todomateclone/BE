@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel(value = "투두 전체 조회(월단위) Response Dto")
@@ -20,9 +19,9 @@ public class ResponseGetListTodoDto {
     @ApiModelProperty(value = "목표 달성 수", dataType = "Long", example = "3")
     private Long doneCount;
     @ApiModelProperty(value = "태그 목록", dataType = "List", example = "")
-    private List<ResponseGetListTagsDto> tags = new ArrayList<>();
+    private List<ResponseGetListTagsDto> tags;
     @ApiModelProperty(value = "투두 목록", dataType = "List", example = "")
-    private List<ResponseGetListTodosDto> todos = new ArrayList<>();
+    private List<ResponseGetListTodosDto> todos;
 
     @Builder
     public ResponseGetListTodoDto(String nickname, String description, String profileImageUrl, Long doneCount, List<ResponseGetListTagsDto> tags, List<ResponseGetListTodosDto> todos) {

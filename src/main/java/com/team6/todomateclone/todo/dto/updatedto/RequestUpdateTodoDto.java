@@ -3,7 +3,6 @@ package com.team6.todomateclone.todo.dto.updatedto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
-import lombok.ToString;
 
 import javax.validation.constraints.*;
 

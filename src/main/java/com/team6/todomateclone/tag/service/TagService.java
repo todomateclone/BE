@@ -1,6 +1,5 @@
 package com.team6.todomateclone.tag.service;
 
-import com.team6.todomateclone.common.exception.CustomErrorCodeEnum;
 import com.team6.todomateclone.common.exception.CustomErrorException;
 import com.team6.todomateclone.member.entity.Member;
 import com.team6.todomateclone.member.repository.MemberRepository;
@@ -15,6 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.MEMBER_NOT_FOUND_MSG;
+import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TAG_INVALID_PERMISSION_MSG;
+import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TAG_NOT_DELETE_MSG;
+import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TAG_NOT_FOUND_MSG;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +35,6 @@ public class TagService {
         tagRepository.save(tag);
 
         return tagMapper.toResponseTagDto(tag);
-
     }
 
     // 태그 조회
@@ -39,7 +42,7 @@ public class TagService {
     public List<ResponseTagDto> getTag(Long memberId) {
         // 멤버 유효성 검사
         Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new CustomErrorException(CustomErrorCodeEnum.MEMBER_NOT_FOUND_MSG)
+                () -> new CustomErrorException(MEMBER_NOT_FOUND_MSG)
         );
 
         List<ResponseTagDto> tags = new ArrayList<>();
@@ -74,22 +77,21 @@ public class TagService {
         if (tagExist.size()>1) {
             tagRepository.deleteById(tagId);
         } else {
-            throw new CustomErrorException(CustomErrorCodeEnum.TAG_NOT_DELETE_MSG);
+            throw new CustomErrorException(TAG_NOT_DELETE_MSG);
         }
     }
 
     // 태그가 있는지 없는지 확인하는 메서드
     private Tag checkTag(Long tagId) {
-        Tag tag = tagRepository.findById(tagId).orElseThrow(
-                () -> new CustomErrorException(CustomErrorCodeEnum.TAG_NOT_FOUND_MSG)
+        return tagRepository.findById(tagId).orElseThrow(
+                () -> new CustomErrorException(TAG_NOT_FOUND_MSG)
         );
-        return tag;
-    }
-    // 태그 유효성 검사 확인하는 메서드
-    private static void checkPermission(Member member, Tag tag) {
-        if(!tag.getMemberId().equals(member.getMemberId())) {
-            throw new CustomErrorException(CustomErrorCodeEnum.TAG_INVALID_PERMISSION_MSG);
-        }
     }
 
+    // 태그 유효성 검사 확인하는 메서드
+    private void checkPermission(Member member, Tag tag) {
+        if(!tag.getMemberId().equals(member.getMemberId())) {
+            throw new CustomErrorException(TAG_INVALID_PERMISSION_MSG);
+        }
+    }
 }

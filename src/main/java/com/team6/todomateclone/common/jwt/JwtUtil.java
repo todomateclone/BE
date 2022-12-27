@@ -20,12 +20,9 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
-
-import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TOKEN_NOT_FOUND_MSG;
 
 @Slf4j
 @Component
@@ -34,7 +31,6 @@ import static com.team6.todomateclone.common.exception.CustomErrorCodeEnum.TOKEN
 public class JwtUtil {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String AUTHORIZATION_KEY = "auth";
     public static final String BEARER_PREFIX = "Bearer ";
     private static final Long TOKEN_TIME = 30 * 60 * 1000L; // 토큰 만료시간 1시간(분 * 초 * 밀리 sec)
 
@@ -81,7 +77,7 @@ public class JwtUtil {
     // AccessToken 검증
     public boolean validateAccessToken(String accessToken) {
         try {
-            // Sring 형태인 토큰을 Thread-safe 하게 parse 하기 위해 AccessToken 가져와 JWS 로 파싱
+            // String 형태인 토큰을 Thread-safe 하게 parse 하기 위해 AccessToken 가져와 JWS 로 파싱
             Jwts.parserBuilder().setSigningKey(accessTokenKey).build().parseClaimsJws(accessToken);
             return true;
         } catch (SecurityException | MalformedJwtException e) {

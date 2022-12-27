@@ -42,12 +42,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 사용자 인증
         Claims claims = jwtUtil.getUserInfoFromToken(token);
-        setAuthentication(response, claims.getSubject());
+        setAuthentication(claims.getSubject());
         filterChain.doFilter(request, response);
     }
 
     // 인증, 인가 설정
-    private void setAuthentication(HttpServletResponse response, String email) {
+    private void setAuthentication(String email) {
         // security context 생성
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         // Authentication 생성

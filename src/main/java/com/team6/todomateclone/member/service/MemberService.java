@@ -50,9 +50,7 @@ public class MemberService {
 
         // 이메일 중복 검사
         memberRepository.findByEmail(email).ifPresent(
-                m -> {
-                    throw new CustomErrorException(DUPLICATED_EMAIL_MSG);
-                }
+                m -> { throw new CustomErrorException(DUPLICATED_EMAIL_MSG); }
         );
 
         Member member = memberMapper.toEntity(email, password, defaultImage);
@@ -91,6 +89,7 @@ public class MemberService {
         return memberMapper.toResponseMemberDtoImage(member);
     }
 
+    /* 기본 이미지로 변경 */
     public ResponseUpdateImageMemberDto updateToDefaultImage(Long memberId){
         Member member = checkMember(memberId);
         member.updateImage(defaultImage);
@@ -98,7 +97,6 @@ public class MemberService {
     }
 
     /* AWS S3 관련: Image -> Url */
-    /* 기본 이미지로 변경 */
     @Value("${cloud.aws.s3.bucket}")
     private String S3Bucket;
     private final AmazonS3Client amazonS3Client;
@@ -116,11 +114,10 @@ public class MemberService {
                             .withCannedAcl(CannedAccessControlList.PublicRead)
              );
             /* URL */
-            String imageUrl = amazonS3Client.getUrl(S3Bucket, originalName).toString();
-            return imageUrl;
+            return amazonS3Client.getUrl(S3Bucket, originalName).toString();
     }
-    /* 유저 확인 */
 
+    /* 유저 확인 */
     private Member checkMember(Long memberId){
         return memberRepository.findById(memberId).orElseThrow(()->new CustomErrorException(CustomErrorCodeEnum.MEMBER_NOT_FOUND_MSG));
     }

@@ -11,7 +11,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -39,7 +44,7 @@ public class MemberInfoController {
     }
 
     @ApiOperation(value = "프로필 이미지 변경")
-    @PatchMapping("/pimage")
+    @PutMapping("/pimage")
     public SuccessResponse<ResponseUpdateImageMemberDto> updateImage(@AuthenticationPrincipal UserDetailsImpl userDetails, MultipartFile multipartFile) throws IOException {
         Long memberId = userDetails.getMember().getMemberId();
         ResponseUpdateImageMemberDto response = memberService.updateImage(memberId, multipartFile);
@@ -48,7 +53,7 @@ public class MemberInfoController {
 
     /* 기본 이미지로 변경 */
     @ApiOperation(value = "프로필 이미지 초기화")
-    @PatchMapping("/dimage")
+    @PutMapping("/dimage")
     public SuccessResponse<ResponseUpdateImageMemberDto> updateToDefaultImage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Long memberId = userDetails.getMember().getMemberId();
         ResponseUpdateImageMemberDto response = memberService.updateToDefaultImage(memberId);

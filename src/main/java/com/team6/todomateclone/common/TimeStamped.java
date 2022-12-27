@@ -21,7 +21,7 @@ public class TimeStamped {
     private LocalDateTime createdAt;
 
      /**
-     @PerPersist : 해당 엔티티 저장하기 전 실행
+     @PrePersist : 해당 엔티티 저장하기 전 실행
       - onPrePersist() : 생성일자 내 나노초 제거함
         사용 전 : 2022-12-25T01:23:53.73487
         사용 후 : 2022-12-25T01:23:53
