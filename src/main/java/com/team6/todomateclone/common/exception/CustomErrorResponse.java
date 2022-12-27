@@ -11,6 +11,12 @@ public class CustomErrorResponse {
     private final String msg;
     private final int code;
 
+    public CustomErrorResponse(String result, String msg, int code) {
+        this.result = result;
+        this.msg = msg;
+        this.code = code;
+    }
+
     /**
      예외 응답 시 코드는 400번으로 통일(팀미팅에서 결정)
     */
