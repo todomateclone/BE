@@ -54,7 +54,11 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll() // 로그인, 회원가입 uri 모두 인증 제외
                 .antMatchers(HttpMethod.GET, "/").permitAll() // HttpsHealthyCheck 요청 허용
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() // pre-flight 요청 허용
+                /* swagger */
+                .antMatchers("/v2/api-docs", "/swagger*/**").permitAll()
+                .antMatchers("/swagger-resources/configuration/ui").permitAll()
                 .anyRequest().authenticated() // 위에 적힌 permitAll 을 제외한 어떤 요청이든 인증 진행
+                //.anyRequest().permitAll() // 테스트를 위해서 잠시 시큐리티 모든 요청 허용
                 .and()
                 // JWT Filter 등록
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
