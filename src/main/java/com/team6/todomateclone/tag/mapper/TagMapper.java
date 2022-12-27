@@ -9,6 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class TagMapper {
 
+    public Tag toEntity(Member member) {
+        return Tag.builder()
+                .tagName("일반")
+                .tagColor("#000000")
+                .member(member)
+                .build();
+    }
+
     // 태그 등록할 때 Dto -> Entity
     public Tag toEntity(RequestTagDto requestTagDto, Member member) {
         return Tag.builder()
