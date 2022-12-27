@@ -2,6 +2,7 @@ package com.team6.todomateclone.common.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team6.todomateclone.common.exception.CustomErrorCodeEnum;
+import com.team6.todomateclone.common.exception.CustomErrorResponse;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (token == null) {
             filterChain.doFilter(request, response);
+            return;
         }
 
         if (!jwtUtil.validateAccessToken(token)) {
@@ -60,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.setStatus(400);
         response.setContentType("application/json; charset=utf8");
         try {
-            String json = new ObjectMapper().writeValueAsString(errorCodeEnum.getMsg());
+            String json = new ObjectMapper().writeValueAsString(new CustomErrorResponse("fail", errorCodeEnum.getMsg(), 400));
             response.getWriter().write(json);
         } catch (Exception e) {
             log.error(e.getMessage());
