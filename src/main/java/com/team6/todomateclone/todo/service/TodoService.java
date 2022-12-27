@@ -77,6 +77,7 @@ public class TodoService {
             todosDto.add(getListTodoMapper.toDtopGetListTodos(todo));
         }
 
+
         //1-6. Entity -> ResponseDto 및 최종 ResponseDto 작업
         ResponseGetListTodoDto responseGetListTodoDto = getListTodoMapper.toDtopGetListTodo(member, doneCount, tagsDtos, todosDto);
 
