@@ -7,8 +7,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.team6.todomateclone.common.exception.CustomErrorCodeEnum;
 import com.team6.todomateclone.common.exception.CustomErrorException;
 import com.team6.todomateclone.common.jwt.JwtUtil;
-import com.team6.todomateclone.member.dto.RequestLoginMemberDto;
-import com.team6.todomateclone.member.dto.RequestSignupMemberDto;
+import com.team6.todomateclone.member.dto.RequestAuthMemberDto;
 import com.team6.todomateclone.member.dto.RequestUpdateInfoMemberDto;
 import com.team6.todomateclone.member.dto.ResponseInfoMemberDto;
 import com.team6.todomateclone.member.dto.ResponseUpdateImageMemberDto;
@@ -45,7 +44,7 @@ public class MemberService {
     /* 기본 이미지 url */
     private static final String defaultImage = "https://cdn.icon-icons.com/icons2/1875/PNG/512/user_120285.png";
 
-    public void signup(RequestSignupMemberDto request) {
+    public void signup(RequestAuthMemberDto request) {
         String email = request.getEmail();
         String password = passwordEncoder.encode(request.getPassword());
 
@@ -62,7 +61,7 @@ public class MemberService {
         tagRepository.save(tag);
     }
 
-    public void login(RequestLoginMemberDto request, HttpServletResponse response) {
+    public void login(RequestAuthMemberDto request, HttpServletResponse response) {
         Member member = checkEmail(request);
 
         if (!(passwordEncoder.matches(request.getPassword(), member.getPassword()))) {
@@ -127,7 +126,7 @@ public class MemberService {
     }
 
     // 유저 Email 존재 여부 확인 메서드
-    private Member checkEmail(RequestLoginMemberDto request) {
+    private Member checkEmail(RequestAuthMemberDto request) {
         return memberRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new CustomErrorException(EMAIL_NOT_FOUND_MSG));
     }
