@@ -30,7 +30,7 @@ public class MemberAuthController {
     }
     @ApiOperation(value = "로그인")
     @PostMapping("/login")
-    public SuccessResponse<Object> login(@RequestBody RequestAuthMemberDto request, HttpServletResponse response) {
+    public SuccessResponse<Object> login(@Valid @RequestBody RequestAuthMemberDto request, HttpServletResponse response) {
         memberService.login(request, response);
         return new SuccessResponse<>("로그인 성공하였습니다.", null);
     }

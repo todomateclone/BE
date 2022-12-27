@@ -1,7 +1,6 @@
 package com.team6.todomateclone.todo.mapper;
 
 import com.team6.todomateclone.todo.dto.createdto.CreateTodoDto;
-import com.team6.todomateclone.todo.dto.updatedto.UpdateTodoDto;
 import com.team6.todomateclone.todo.entity.Todo;
 import org.springframework.stereotype.Component;
 

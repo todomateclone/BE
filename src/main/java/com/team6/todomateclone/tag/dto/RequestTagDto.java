@@ -5,9 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "태그 Requset Dto")
+@ApiModel(value = "태그 Request Dto")
 @Getter
-@NoArgsConstructor
 public class RequestTagDto {
     @ApiModelProperty(value = "태그 이름", dataType = "String", example = "다이어트")
     private String tagName;
