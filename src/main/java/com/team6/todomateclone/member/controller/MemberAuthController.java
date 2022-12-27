@@ -31,5 +31,4 @@ public class MemberAuthController {
         memberService.login(request, response);
         return new SuccessResponse<>("로그인 성공하였습니다.", null);
     }
-
 }
