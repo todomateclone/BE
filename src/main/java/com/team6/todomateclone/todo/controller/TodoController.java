@@ -10,12 +10,15 @@ import com.team6.todomateclone.todo.dto.updatedto.RequestUpdateTodoDto;
 import com.team6.todomateclone.todo.dto.updatedto.ResponseUpdateTodoDto;
 import com.team6.todomateclone.todo.dto.updatedto.UpdateTodoDto;
 import com.team6.todomateclone.todo.service.TodoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Api(tags={"메인페이지 Todo API Controller"})
 @RestController
 @RequestMapping("/api/todo")
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class TodoController {
     private final TodoService todoService;
 
     /** 1. 투투 전체조회(월단위) **/
+    @ApiOperation(value = "투두 전체 조회(월단위)")
     @GetMapping(value = {"", "/{todoYear}/{todoMonth}"}) //다중 매핑
     public SuccessResponse<ResponseGetListTodoDto> getTodos(@PathVariable(required = false) Long todoYear,
                                                             @PathVariable(required = false) Long todoMonth,
@@ -36,6 +40,7 @@ public class TodoController {
     }
 
     /** 2. 투두 등록 **/
+    @ApiOperation(value = "투두 등록")
     @PostMapping("/{tagId}")
     public SuccessResponse<ResponseCreateTodoDto> createTodo(@PathVariable Long tagId,
                                                              @RequestBody @Valid RequestCreateTodoDto requestCreateTodoDto,
@@ -51,6 +56,7 @@ public class TodoController {
     }
 
     /** 3. 투두 수정 **/
+    @ApiOperation(value = "투두 수정")
     @PutMapping("/{todoId}")
     public SuccessResponse<ResponseUpdateTodoDto> updateTodo(@PathVariable Long todoId,
                                                              @RequestBody @Valid RequestUpdateTodoDto requestUpdateTodoDto,
@@ -66,6 +72,7 @@ public class TodoController {
     }
 
     /** 4. 투두 삭제 **/
+    @ApiOperation(value = "투두 삭제")
     @DeleteMapping("/{todoId}")
     public SuccessResponse<Object> deleteTodo(@PathVariable Long todoId,
                                               @AuthenticationPrincipal UserDetailsImpl userDetails){
