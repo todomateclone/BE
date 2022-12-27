@@ -52,7 +52,7 @@ public class TagService {
     // 태그 수정
     @Transactional
     public ResponseTagDto updateTag(Long tagId, RequestTagDto requestTagDto, Member member) {
-        // 태그 존재 여부 확인
+        // 선택한 태그 존재 여부 확인
         Tag tag = checkTag(tagId);
         // 태그 유효성 검사
         checkPermission(member, tag);
@@ -65,12 +65,17 @@ public class TagService {
     // 태그 삭제
     @Transactional
     public void deleteTag(Long tagId, Member member) {
-        // 태그 존재 여부 확인
+        // 선택한 태그 존재 여부 확인
         Tag tag = checkTag(tagId);
         // 태그 유효성 검사
         checkPermission(member, tag);
-
-        tagRepository.deleteById(tagId);
+        // 태그가 하나라도 있으면 삭제 불가
+        List<Tag> tagExist = tagRepository.findAll();
+        if (tagExist.size()>1) {
+            tagRepository.deleteById(tagId);
+        } else {
+            throw new CustomErrorException(CustomErrorCodeEnum.TAG_NOT_DELETE_MSG);
+        }
     }
 
     // 태그가 있는지 없는지 확인하는 메서드
