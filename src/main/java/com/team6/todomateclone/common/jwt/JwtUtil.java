@@ -32,7 +32,7 @@ public class JwtUtil {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
-    private static final Long TOKEN_TIME = 30 * 60 * 1000L; // 토큰 만료시간 1시간(분 * 초 * 밀리 sec)
+    private static final Long TOKEN_TIME = 6 * 30 * 60 * 1000L; // 토큰 만료시간 1시간(분 * 초 * 밀리 sec)
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
