@@ -1,5 +1,5 @@
 # todomate 클론코딩
-todomate url : https://www.todomate.net/
+https://www.todomate.net/
 
 
 
