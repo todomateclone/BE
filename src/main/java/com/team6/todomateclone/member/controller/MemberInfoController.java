@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
 
@@ -29,7 +30,7 @@ public class MemberInfoController {
     private final MemberService memberService;
     @ApiOperation(value = "회원 소개 조회")
     @GetMapping
-    SuccessResponse<ResponseInfoMemberDto> getMemberInfo(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    SuccessResponse<ResponseInfoMemberDto> getMemberInfo(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         Long memberId = userDetails.getMember().getMemberId();
         ResponseInfoMemberDto response = memberService.getMemberInfo(memberId);
         return new SuccessResponse<>("회원정보 조회 성공하였습니다.",response);
@@ -37,7 +38,7 @@ public class MemberInfoController {
 
     @ApiOperation(value = "회원 소개 수정")
     @PatchMapping
-    public SuccessResponse<ResponseUpdateInfoMemberDto> updateInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody RequestUpdateInfoMemberDto request){
+    public SuccessResponse<ResponseUpdateInfoMemberDto> updateInfo(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody RequestUpdateInfoMemberDto request){
         Long memberId = userDetails.getMember().getMemberId();
         ResponseUpdateInfoMemberDto response = memberService.updateInfo(memberId,request);
         return new SuccessResponse<>("회원정보 수정 성공하였습니다.",response);
@@ -45,7 +46,7 @@ public class MemberInfoController {
 
     @ApiOperation(value = "프로필 이미지 변경")
     @PutMapping("/pimage")
-    public SuccessResponse<ResponseUpdateImageMemberDto> updateImage(@AuthenticationPrincipal UserDetailsImpl userDetails, MultipartFile multipartFile) throws IOException {
+    public SuccessResponse<ResponseUpdateImageMemberDto> updateImage(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails, MultipartFile multipartFile) throws IOException {
         Long memberId = userDetails.getMember().getMemberId();
         ResponseUpdateImageMemberDto response = memberService.updateImage(memberId, multipartFile);
         return new SuccessResponse<>("프로필 이미지 변경 성공하였습니다.",response);
@@ -54,7 +55,7 @@ public class MemberInfoController {
     /* 기본 이미지로 변경 */
     @ApiOperation(value = "프로필 이미지 초기화")
     @PutMapping("/dimage")
-    public SuccessResponse<ResponseUpdateImageMemberDto> updateToDefaultImage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public SuccessResponse<ResponseUpdateImageMemberDto> updateToDefaultImage(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Long memberId = userDetails.getMember().getMemberId();
         ResponseUpdateImageMemberDto response = memberService.updateToDefaultImage(memberId);
         return new SuccessResponse<>("기본 이미지로 변경 성공하였습니다.",response);

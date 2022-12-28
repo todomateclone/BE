@@ -58,7 +58,7 @@ public class TodoController {
     @PostMapping("/{tagId}")
     public SuccessResponse<ResponseCreateTodoDto> createTodo(@PathVariable Long tagId,
                                                              @RequestBody @Validated(ValidationSequence.class) RequestCreateTodoDto requestCreateTodoDto,
-                                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         //2-1. RequestDto -> ServiceDto
         CreateTodoDto createTodoDto = requestCreateTodoDto.toCreateTodoDto();
 
@@ -74,7 +74,7 @@ public class TodoController {
     @PutMapping("/{todoId}")
     public SuccessResponse<ResponseUpdateTodoDto> updateTodo(@PathVariable Long todoId,
                                                              @RequestBody @Validated(ValidationSequence.class) RequestUpdateTodoDto requestUpdateTodoDto,
-                                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         //3-1. RequestDto -> ServiceDto
         UpdateTodoDto updateTodoDto = requestUpdateTodoDto.toUpdateTodoDto();
 
@@ -89,7 +89,7 @@ public class TodoController {
     @ApiOperation(value = "투두 삭제")
     @DeleteMapping("/{todoId}")
     public SuccessResponse<Object> deleteTodo(@PathVariable Long todoId,
-                                              @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         //4-1. 투투 삭제 서비스 진행
         todoService.deleteTodo(todoId, userDetails.getMember().getMemberId());
 
