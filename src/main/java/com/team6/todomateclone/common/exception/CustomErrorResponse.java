@@ -30,4 +30,15 @@ public class CustomErrorResponse {
                         .build()
                 );
     }
+
+    public static ResponseEntity<CustomErrorResponse> toResponseValidEntity(String defaultMessage) {
+        return ResponseEntity
+                .status(400)
+                .body(CustomErrorResponse.builder()
+                        .result("fail")
+                        .msg(defaultMessage)
+                        .code(400)
+                        .build()
+                );
+    }
 }
