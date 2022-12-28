@@ -20,5 +20,5 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     List<Todo> findAllByMemberIdAndTodoYearAndTodoMonth(Long memberId, Long todoYear, Long todoMonth);
 
-    void deleteTodoByTag(Tag tag);
+    void deleteByTagId(Long tagId);
 }
