@@ -8,6 +8,7 @@ import com.team6.todomateclone.tag.dto.ResponseTagDto;
 import com.team6.todomateclone.tag.entity.Tag;
 import com.team6.todomateclone.tag.mapper.TagMapper;
 import com.team6.todomateclone.tag.repository.TagRepository;
+import com.team6.todomateclone.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ public class TagService {
 
     private final TagRepository tagRepository;
     private final MemberRepository memberRepository;
+    private final TodoRepository todoRepository;
     private final TagMapper tagMapper;
 
     // 태그 등록
@@ -75,6 +77,7 @@ public class TagService {
         // 태그가 하나라도 있으면 삭제 불가
         List<Tag> tagExist = tagRepository.findAll();
         if (tagExist.size()>1) {
+            todoRepository.deleteTodoByTag(tag);
             tagRepository.deleteById(tagId);
         } else {
             throw new CustomErrorException(TAG_NOT_DELETE_MSG);
