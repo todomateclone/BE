@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
+
 import java.util.List;
 
 @Api(tags = {"마이페이지 Tag API Controller"})
@@ -31,7 +33,7 @@ public class TagController {
     // 태그 등록
     @ApiOperation(value = "태그 등록")
     @PostMapping("")
-    public SuccessResponse<ResponseTagDto> createTag(@RequestBody RequestTagDto requestTagDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public SuccessResponse<ResponseTagDto> createTag(@RequestBody RequestTagDto requestTagDto, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ResponseTagDto response = tagService.createTag(requestTagDto, userDetails.getMember());
         return new SuccessResponse<>("태그 생성 성공" ,response);
     }
@@ -39,7 +41,7 @@ public class TagController {
     // 태그 조회
     @ApiOperation(value = "태그 조회")
     @GetMapping("")
-    public SuccessResponse<List<ResponseTagDto>> getTag(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public SuccessResponse<List<ResponseTagDto>> getTag(@ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         List<ResponseTagDto> response = tagService.getTag(userDetails.getMember().getMemberId());
         return new SuccessResponse<>("태그 조회 성공", response);
     }
@@ -47,7 +49,7 @@ public class TagController {
     // 태그 수정
     @ApiOperation(value = "태그 수정")
     @PatchMapping("/{tagId}")
-    public SuccessResponse<ResponseTagDto> updateTag(@PathVariable Long tagId, @RequestBody RequestTagDto requestTagDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public SuccessResponse<ResponseTagDto> updateTag(@PathVariable Long tagId, @RequestBody RequestTagDto requestTagDto, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ResponseTagDto response = tagService.updateTag(tagId, requestTagDto, userDetails.getMember());
         return new SuccessResponse<>("태그 수정 성공", response);
     }
@@ -55,7 +57,7 @@ public class TagController {
     // 태그 삭제
     @ApiOperation(value = "태그 삭제")
     @DeleteMapping("/{tagId}")
-    public SuccessResponse<ResponseTagDto> deleteTag(@PathVariable Long tagId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public SuccessResponse<ResponseTagDto> deleteTag(@PathVariable Long tagId, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         tagService.deleteTag(tagId, userDetails.getMember());
         return new SuccessResponse<>("태그 삭제 성공", null);
     }

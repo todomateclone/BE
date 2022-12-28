@@ -39,7 +39,7 @@ public class TodoController {
     @GetMapping(value = {"", "/{todoYear}/{todoMonth}"}) //다중 매핑
     public SuccessResponse<ResponseGetListTodoDto> getTodos(@PathVariable(required = false) Long todoYear,
                                                             @PathVariable(required = false) Long todoMonth,
-                                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                            @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
         //1-1. 전체 조회 서비스 진행
         ResponseGetListTodoDto data = todoService.getTodos(todoYear, todoMonth, userDetails.getMember().getMemberId());
 
@@ -52,7 +52,7 @@ public class TodoController {
     @PostMapping("/{tagId}")
     public SuccessResponse<ResponseCreateTodoDto> createTodo(@PathVariable Long tagId,
                                                              @RequestBody @Valid RequestCreateTodoDto requestCreateTodoDto,
-                                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         //2-1. RequestDto -> ServiceDto
         CreateTodoDto createTodoDto = requestCreateTodoDto.toCreateTodoDto();
 
@@ -68,7 +68,7 @@ public class TodoController {
     @PutMapping("/{todoId}")
     public SuccessResponse<ResponseUpdateTodoDto> updateTodo(@PathVariable Long todoId,
                                                              @RequestBody @Valid RequestUpdateTodoDto requestUpdateTodoDto,
-                                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                             @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         //3-1. RequestDto -> ServiceDto
         UpdateTodoDto updateTodoDto = requestUpdateTodoDto.toUpdateTodoDto();
 
@@ -83,7 +83,7 @@ public class TodoController {
     @ApiOperation(value = "투두 삭제")
     @DeleteMapping("/{todoId}")
     public SuccessResponse<Object> deleteTodo(@PathVariable Long todoId,
-                                              @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         //4-1. 투투 삭제 서비스 진행
         todoService.deleteTodo(todoId, userDetails.getMember().getMemberId());
 
