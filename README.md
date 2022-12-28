@@ -1,3 +1,15 @@
+# todomate 클론코딩
+todomate url : https://www.todomate.net/
+
+
+
+## 👨‍👨‍👧‍👦팀원
+### FE : [권령빈](https://github.com/Dev-RyanK), [서강산](https://github.com/dkaodkaork)
+### BE : [서재석](https://github.com/suhjaesuk), [오호진](https://github.com/1Tsw0rd), [정성원](https://github.com/SungwonJeong), [한교진](https://github.com/hangj97)
+
+
+
+
 ## ✅Stack
 ### FE:  <img src="https://img.shields.io/badge/JavaScript-F7DF1E.svg?&style=for-the-badge&logo=JavaScript&logoColor=white"> <img src="https://img.shields.io/badge/React-0067A3.svg?&style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/Redux-8B00FF.svg?&style=for-the-badge&logo=Redux&logoColor=white">
 
