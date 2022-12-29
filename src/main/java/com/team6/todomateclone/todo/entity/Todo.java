@@ -63,5 +63,9 @@ public class Todo extends TimeStamped {
         this.done = updateTodo.isDone();
     }
 
+    public void updateTodoDone(boolean todoDone) {
+        this.done = todoDone;
+    }
+
 
 }

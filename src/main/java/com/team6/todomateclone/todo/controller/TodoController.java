@@ -29,7 +29,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags={"메인페이지 Todo API Controller"})
 @RestController
-@RequestMapping("/api/todo")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @Validated //@PathVariable validation 적용은 class에 @Validated를 적용해야함
 public class TodoController {
@@ -38,7 +38,7 @@ public class TodoController {
 
     /** 1. 투투 전체조회(월단위) **/
     @ApiOperation(value = "투두 전체 조회(월단위)")
-    @GetMapping(value = {"", "/{todoYear}/{todoMonth}"}) //다중 매핑
+    @GetMapping(value = {"/todo", "/todo/{todoYear}/{todoMonth}"}) //다중 매핑
     public SuccessResponse<ResponseGetListTodoDto> getTodos(@PathVariable(required = false) //@PathVariable 변수에 null값 저장 위해 사용
                                                             @Range(min = 1980, max = 3000, message = "년도는 1980 ~ 3000년까지 입력 가능합니다.")
                                                             Long todoYear,
@@ -55,7 +55,7 @@ public class TodoController {
 
     /** 2. 투두 등록 **/
     @ApiOperation(value = "투두 등록")
-    @PostMapping("/{tagId}")
+    @PostMapping("/{tagId}/todo")
     public SuccessResponse<ResponseCreateTodoDto> createTodo(@PathVariable Long tagId,
                                                              @RequestBody @Validated(ValidationSequence.class) RequestCreateTodoDto requestCreateTodoDto,
                                                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
@@ -71,7 +71,7 @@ public class TodoController {
 
     /** 3. 투두 수정 **/
     @ApiOperation(value = "투두 수정")
-    @PutMapping("/{todoId}")
+    @PutMapping("/todo/{todoId}")
     public SuccessResponse<ResponseUpdateTodoDto> updateTodo(@PathVariable Long todoId,
                                                              @RequestBody @Validated(ValidationSequence.class) RequestUpdateTodoDto requestUpdateTodoDto,
                                                              @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
@@ -87,7 +87,7 @@ public class TodoController {
 
     /** 4. 투두 삭제 **/
     @ApiOperation(value = "투두 삭제")
-    @DeleteMapping("/{todoId}")
+    @DeleteMapping("/todo/{todoId}")
     public SuccessResponse<Object> deleteTodo(@PathVariable Long todoId,
                                               @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails){
         //4-1. 투투 삭제 서비스 진행
@@ -95,5 +95,17 @@ public class TodoController {
 
         //4-2. 결과 반환
         return new SuccessResponse<>("일정 삭제 성공하였습니다.", null);
+    }
+
+    /** 5. 투두 달성 **/
+    @ApiOperation(value = "투두 달성")
+    @PutMapping("/todo/{todoId}/done")
+    public SuccessResponse<Object> updateTodoDone(@PathVariable Long todoId,
+                                                  @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        //5-1. 투투 달성 서비스 진행
+        String msg = todoService.updateTodoDone(todoId, userDetails.getMember().getMemberId());
+
+        //5-2. 결과 반환
+        return new SuccessResponse<>(msg, null);
     }
 }
