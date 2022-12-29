@@ -12,7 +12,7 @@
 
 ### Deploy: <img src="https://img.shields.io/badge/Amazon EC2-yellow?style=for-the-badge&logo=AmazonEC2&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-yellow?style=for-the-badge&logo=AmazonS3&logoColor=white"> <img src="https://img.shields.io/badge/Github Actions-2088FF?style=for-the-badge&logo=Github Actions&logoColor=white">
 
-## 목표설정
+## 📌목표설정
 ### 1단계(완료)
 - **로그인/ 회원가입**
 - **Todo CRUD**
