@@ -77,7 +77,7 @@ public class TagService {
         // 태그가 하나라도 있으면 삭제 불가
         List<Tag> tagExist = tagRepository.findAll();
         if (tagExist.size()>1) {
-            todoRepository.deleteTodoByTag(tag);
+            todoRepository.deleteByTagId(tagId);
             tagRepository.deleteById(tagId);
         } else {
             throw new CustomErrorException(TAG_NOT_DELETE_MSG);
