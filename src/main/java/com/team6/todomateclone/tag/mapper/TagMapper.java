@@ -21,7 +21,7 @@ public class TagMapper {
     public Tag toEntity(RequestTagDto requestTagDto, Member member) {
         return Tag.builder()
                 .tagName(requestTagDto.getTagName())
-                .tagColor("#000000")
+                .tagColor(requestTagDto.getTagColor())
                 .member(member)
                 .build();
     }
