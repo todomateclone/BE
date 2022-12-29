@@ -69,19 +69,30 @@ public class TagService {
 
     // 태그 삭제
     @Transactional
-    public void deleteTag(Long tagId, Member member) {
-        // 선택한 태그 존재 여부 확인
-        Tag tag = checkTag(tagId);
-        // 태그 유효성 검사
-        checkPermission(member, tag);
-        // 태그가 하나라도 있으면 삭제 불가
-        List<Tag> tagExist = tagRepository.findAll();
-        if (tagExist.size()>1) {
-            todoRepository.deleteByTagId(tagId);
-            tagRepository.deleteById(tagId);
-        } else {
-            throw new CustomErrorException(TAG_NOT_DELETE_MSG);
+    public void deleteTag(Long tagId, Long memberId) {
+        if (checkTrueTag(tagId, memberId)) {
+            // 태그가 하나라도 있으면 삭제 불가
+            Long tags = tagRepository.countByMemberId(memberId);
+            if (tags > 1) {
+                todoRepository.deleteAllByTagId(tagId);
+                todoRepository.flush();
+                tagRepository.deleteById(tagId);
+            } else {
+                throw new CustomErrorException(TAG_NOT_DELETE_MSG);
+            }
         }
+    }
+
+    private boolean checkTrueTag(Long tagId, Long memberId) {
+        Tag tag = tagRepository.findById(tagId).orElseThrow(
+                () -> new CustomErrorException(TAG_NOT_FOUND_MSG)
+        );
+
+        if(!tag.getMemberId().equals(memberId)) {
+            throw new CustomErrorException(TAG_INVALID_PERMISSION_MSG);
+        }
+
+        return true;
     }
 
     // 태그가 있는지 없는지 확인하는 메서드

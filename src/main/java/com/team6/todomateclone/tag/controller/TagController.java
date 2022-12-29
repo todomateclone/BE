@@ -58,7 +58,7 @@ public class TagController {
     @ApiOperation(value = "태그 삭제")
     @DeleteMapping("/{tagId}")
     public SuccessResponse<ResponseTagDto> deleteTag(@PathVariable Long tagId, @ApiIgnore @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        tagService.deleteTag(tagId, userDetails.getMember());
+        tagService.deleteTag(tagId, userDetails.getMember().getMemberId());
         return new SuccessResponse<>("태그 삭제 성공", null);
     }
 }
