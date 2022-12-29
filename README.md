@@ -35,13 +35,12 @@
 
 ## 구현 이미지
 ![첫 페이지](img_3.png)
-![메인 페이지](img_4.png)
 
 ## ERD
-![ERD](img.png)
+![image](https://user-images.githubusercontent.com/105099062/209951945-ed0e751c-974f-4434-94bd-46d89773322d.png)
 
 ## Package Construct
-![패키지 구조](img_1.png)
+![image](https://user-images.githubusercontent.com/105099062/209951956-88f6c270-a224-4abb-beea-bce50f75dda5.png)
 
 ## 📌 Git Convention
 | Tag Name | Description |
