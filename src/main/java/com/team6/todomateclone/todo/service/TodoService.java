@@ -158,4 +158,27 @@ public class TodoService {
         //4-3. 투두 삭제
         todoRepository.deleteById(todo.getTodoId());
     }
+
+    /** 5. 투두 달성 **/
+    @Transactional
+    public String updateTodoDone(Long todoId, Long memberId) {
+        //5-1. 투두 유효성 검사 및 done 조회
+        Todo todo = todoRepository.findByTodoIdAndMemberId(todoId, memberId).orElseThrow(
+                () -> new CustomErrorException(TODO_NOT_FOUND_MSG)
+        );
+
+        //5-2. 투두 done 수정(Toggle 방식)
+        String msg ="";
+
+        if(todo.isDone() == false) {
+            todo.updateTodoDone(true);
+            msg = "Todo done 변경 성공하였습니다.";
+        } else if(todo.isDone() == true){
+            todo.updateTodoDone(false);
+            msg = "Todo done 변경 취소하였습니다.";
+        }
+
+        //5-3. 투두 done 결과 반환
+        return msg;
+    }
 }
