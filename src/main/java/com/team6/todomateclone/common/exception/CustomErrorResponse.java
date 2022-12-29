@@ -31,7 +31,7 @@ public class CustomErrorResponse {
                 );
     }
 
-    public static ResponseEntity<CustomErrorResponse> toResponseValidEntity(String defaultMessage) {
+    public static ResponseEntity<CustomErrorResponse> toResponseEntityException(String defaultMessage) {
         return ResponseEntity
                 .status(400)
                 .body(CustomErrorResponse.builder()

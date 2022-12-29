@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
@@ -18,6 +19,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
                              @Param("todoMonth") Long todoMonth);
 
     List<Todo> findAllByMemberIdAndTodoYearAndTodoMonth(Long memberId, Long todoYear, Long todoMonth);
-
     void deleteAllByTagId(Long tagId);
+    Optional<Todo> findByTodoIdAndMemberId(Long todoId, Long memberId);
+
 }
