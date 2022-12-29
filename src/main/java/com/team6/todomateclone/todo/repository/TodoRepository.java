@@ -1,6 +1,5 @@
 package com.team6.todomateclone.todo.repository;
 
-import com.team6.todomateclone.tag.entity.Tag;
 import com.team6.todomateclone.todo.entity.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +19,5 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     List<Todo> findAllByMemberIdAndTodoYearAndTodoMonth(Long memberId, Long todoYear, Long todoMonth);
 
-    void deleteByTagId(Long tagId);
+    void deleteAllByTagId(Long tagId);
 }
