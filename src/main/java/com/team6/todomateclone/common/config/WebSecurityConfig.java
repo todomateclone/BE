@@ -68,6 +68,7 @@ public class WebSecurityConfig {
         configuration.addAllowedOrigin("http://localhost:3003");
         configuration.addAllowedOrigin("http://localhost:3004");
         configuration.addAllowedOrigin("http://localhost:3005");
+        configuration.addAllowedOrigin("http://todomate.s3-website.ap-northeast-2.amazonaws.com");
         configuration.addAllowedMethod("*"); // 허용할 Http Method
         configuration.addAllowedHeader("*"); // 허용할 헤더
         configuration.setAllowCredentials(true); // 내 서버가 응답할 때 json 을 js 에서 처리할 수 있게 설정
